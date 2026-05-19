@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daily notes from building things">
+    <title>Log - Zach</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Log</h1>
+                <p class="subtitle">Daily notes from building Calenduel.</p>
+            </header>
+
+            <section class="section">
+                <ul>
+                    <li><a href="/log/2026-05-20.html">2026-05-20 — Day 1</a></li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>
