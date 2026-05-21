@@ -52,7 +52,7 @@
                 <h3> vite?</h3>
                 <p>I learned about Vite for a few hours, and found out that it makes local development a lot faster. Before Vite, the standard was to bundle all your JavaScript into one file, which takes a long time. If you made a small change, it would take a long time to re-bundle. Instead, Vite keeps your source code separated and relies on the browser to import other source code and code from dependencies. </p>
                 <p> For deployment, Vite bundles all your code together into a few large files by default.</p>
-                <p>Vite can separate your code files during local development because querying your local machine for javascript files is super fast. </p>
+                <p>Vite can keep your code files separated during local development because browsers can follow <code>import</code> statements natively (since around 2017). Without that, the browser wouldn't know how to assemble the unbundled files. Fast localhost just makes the cost acceptable. </p>
                 <p> It's pronounced 'veet', and is French for 'fast' because it speeds up local development. </p>
                 <h3> esbuild & esm</h3>
                 <p> The 'es' in 'esbuild' stands for ECMAScript, which is the official name for JavaScript. esbuild condenses the internals of each dependency into one file per dependency. When browser asks for a file, esbuild converts TypeScript to JavaScript.</p>
