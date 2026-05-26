@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Day 1 of rebuilding Calenduel">
+    <title>Day 1 - Log - Zach</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Day 1: deployment</h1>
+                <p class="subtitle">May 24, 2026</p>
+            </header>
+
+            <section class="section">
+                <h2>What I worked on</h2>
+                <ul class="log-list">
+                <li>set up project with vite: react and typescript</li>
+                <li>locally hosted website</li>
+                <li>set up github repository</li>
+                <li>deployed on vercel</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>What I learned</h2>
+                <h3>vite?</h3>
+                <p>I learned about Vite for a few hours, and found out that it makes local development a lot faster. Before Vite, the standard was to bundle all your JavaScript into one file, which takes a long time. If you made a small change, it would take a long time to re-bundle. Instead, Vite keeps your source code separated and relies on the browser to import other source code and code from dependencies.</p>
+                <p>For deployment, Vite bundles all your code together into a few large files by default.</p>
+                <p>Vite can keep your code files separated during local development because browsers can follow <code>import</code> statements natively (since around 2017). Without that, the browser wouldn't know how to assemble the unbundled files. Fast localhost just makes the cost acceptable.</p>
+                <p>It's pronounced 'veet', and is French for 'fast' because it speeds up local development.</p>
+                <h3>esbuild &amp; esm</h3>
+                <p>The 'es' in 'esbuild' stands for ECMAScript, which is the official name for JavaScript. esbuild condenses the internals of each dependency into one file per dependency. When browser asks for a file, esbuild converts TypeScript to JavaScript.</p>
+            </section>
+
+            <section class="section">
+                <h2>What's still confusing</h2>
+                <h3>What happens during 'building'?</h3>
+                <p>I know that you need to compile TypeScript into JavaScript, and that you need to move the code into one bundle when deploying, but what else happens? Why is it so slow?</p>
+                <h3>How does hot-reload work with Vite?</h3>
+                <p>How does Vite reload your website in like 50ms?</p>
+                <h3>How does the browser actually load your website?</h3>
+                <p>How does it resolve import statements, etc?</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>
