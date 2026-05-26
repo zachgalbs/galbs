@@ -128,9 +128,10 @@
                 <h4>Custom Headers</h4>
                 <p>Some APIs invent their own header for processing API Keys, instead of using <code>Authorization</code>. In this case, API designers pick their own header name, and document it. Developers read the documentation and make sure their requests use the right header.</p>
                 <p>Example:</p>
-                <p><code>GET /v1/forecast?city=NYC HTTP/1.1
+                <pre><code>GET /v1/forecast?city=NYC HTTP/1.1
                 Host: api.weather.example
-                X-Api-Key: AIzaSyD-9tSrke72PouQMnMX</code></p>
+                X-Api-Key: AIzaSyD-9tSrke72PouQMnMX
+                </code></pre>
                 <p><em>Why would you ever want to use a custom header?</em></p>
                 <p>Sometimes servers want to reserve <code>Authorization</code> for something else, like a token given at the start of a session for user auth.</p>
                 <h3>What's OAuth?</h3>
@@ -142,13 +143,15 @@
                 <p>That's basically what Open Authorization (OAuth) is. You send the user to login to their account, and then they're prompted to give your application access to their information, and if they click <code>Allow</code>, they're redirected to one of your endpoints with a token, and some miscellaneous info. You use that token in the <code>Authorization:</code> header instead of one API key for all your users.</p>
                 <p>Let's go through the full flow assuming you want to access a user's Google Calendar events:</p>
                 <p>The user clicks on <code>Connect Google Calendar</code>. Your website's JS tells the browser to make an HTTP request:</p>
-                <p><code>GET /o/oauth2/v2/auth?... HTTP/1.1
+                <pre><code>GET /o/oauth2/v2/auth?... HTTP/1.1
                 Host: accounts.google.com
-                ...</code></p>
+                ...
+                </code></pre>
                 <p>The user sees the resulting page, logs in to their Google account, selects scopes to allow the application to access, and then clicks <code>Allow</code>. Then, Google's webpage
                   redirects to your website by giving a specific HTTP response:</p>
-                <p><code>HTTP/1.1 302 Found
-                Location: https://calenduel.com/auth/callback#access_token=...&amp;token_type=Bearer&amp;expires_in=3599&amp;scope=https://www.googleapis.com/auth/calendar.readonly</code></p>
+                <pre><code>HTTP/1.1 302 Found
+                Location: https://calenduel.com/auth/callback#access_token=...&amp;token_type=Bearer&amp;expires_in=3599&amp;scope=https://www.googleapis.com/auth/calendar.readonly
+                </code></pre>
                 <p>That tells the browser 'I know what webpage you're looking for, and it's at this location', or in other words it just redirects to a new URL.</p>
                 <p>The little <code>#</code> character indicates a URL fragment, which lives <strong>in the browser</strong>, not the server. You may have noticed it to indicate which heading to start at in a
                   webpage:</p>
@@ -158,9 +161,10 @@
                 <p>Once the user is redirected to your website with the access_token, the browser stores the token at
                 <code>window.location.hash</code>, some location in your browser.</p>
                 <p>From that point on, the JS code from the web server running locally on your machine will ask the browser to get the user's data from www.googleapis.com with the locally stored token.</p>
-                <p><code>GET /calendar/v3/calendars/primary/events HTTP/1.1
+                <pre><code>GET /calendar/v3/calendars/primary/events HTTP/1.1
                 Host: www.googleapis.com
-                Authorization: Bearer ya29.a0AfH6...</code></p>
+                Authorization: Bearer ya29.a0AfH6...
+                </code></pre>
                 <p>If <code>www.googleapis.com</code> verifies your token is valid, it will respond with status code <code>200</code>, and with the user's events in JSON, in the <em>body</em> part of the response.</p>
                 <p>Then, as the application developer, you can use <code>fetch()</code> with query parameters to get whatever data you want.</p>
             </section>

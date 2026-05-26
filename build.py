@@ -154,7 +154,7 @@ def render_body(md_body):
     chunks = [c.strip() for c in re.split(r"(?=^## )", md_body, flags=re.MULTILINE) if c.strip()]
     sections = []
     for chunk in chunks:
-        html = markdown.markdown(chunk)
+        html = markdown.markdown(chunk, extensions=['fenced_code'])
         html = html.replace("<ul>", '<ul class="log-list">')
         indented = "\n".join("                " + line for line in html.splitlines())
         sections.append(f'            <section class="section">\n{indented}\n            </section>')
