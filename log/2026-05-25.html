@@ -38,146 +38,146 @@
             </header>
 
             <section class="section">
-                <h2>What I worked on</h2>
-                <p>Studied web networking</p>
-                <p>Studied browser internals</p>
-                <p>Studied API authentication</p>
+<h2>What I worked on</h2>
+<p>Studied web networking</p>
+<p>Studied browser internals</p>
+<p>Studied API authentication</p>
             </section>
 
             <section class="section">
-                <h2>What I learned</h2>
-                <h3>Networking</h3>
-                <p>Websites communicate with each other using Hypertext Transfer Protocol. Some client sends a GET or POST request and gets a response back from whatever server they sent it to. Some application on your computer asks your operating system to do networking calls, and you magically get back a response from the server with a status code and optionally data you requested.</p>
-                <p>When you send requests using http, you have to follow a certain structure looking something like this: <code>https://gmail.com/</code>, where https is the <strong>scheme</strong>, gmail.com is the host, and anything past the forward slash is the <strong>path</strong>. The default path is <code>/</code>, and each website defines where that path leads (usually to the website homepage). </p>
-                <p>What are the steps though? How does typing <code>gmail.com</code> allow us to communicate with Google?</p>
-                <p>First, your browser (like Google Chrome), calls an OS function: <code>getaddrinfo(gmail.com)</code>. Your OS does some magic, and spits out the IP address: <code>142.250.80.69</code>. Chrome tells the OS to open a <strong>socket</strong> to that IP on port <code>443</code> (the default for https). After that, there's a stream set up where Google Chrome can communicate with Google's servers (hosting <code>gmail.com</code>). Then, <strong>encryption</strong> is set up through the Transport Layer Security. Then, Google's servers read your request and send a response. In this case, Google Chrome receives <code>HTTP/1.1 301 Moved Permanently</code>, because gmail.com redirects to <code>mail.google.com</code>. Then, Chrome repeats the whole process with <code>mail.google.com</code>. Eventually, we'll get an HTML page, which Chrome parses and renders.</p>
-                <p><img alt="diagram of described networking process" src="networking diagram.png" /></p>
-                <hr />
-                <h3>Browsers</h3>
-                <p>I know some examples of browsers, like Google Chrome, Safari, and Firefox, but what do they do?</p>
-                <p>Three things:</p>
-                <ol>
-                <li>Makes network calls</li>
-                <li>Renders HTML and CSS</li>
-                <li>Runs JavaScript (ECMAScript, actually 🤓)</li>
-                </ol>
-                <h4>Network calls</h4>
-                <p>We already touched on this, but whenever you enter a <strong>domain name</strong>, like <code>google.com</code>, your browser is how you communicate with the server that provides that website. It handles communication with your OS, calling functions like <code>getaddrinfo()</code> and <code>connect()</code>.</p>
-                <p><img alt="image of the search bar in Google Chrome" src="image.png" /></p>
-                <p>That little search bar in Google Chrome is where you put in the URL of a website you want to visit, and then Chrome runs those OS functions to establish connections and retrieve HTML and CSS for you.</p>
-                <p><em>But Zach, you can search up random terms and get search results</em></p>
-                <p>Yeah, that's because if you didn't input a URL, it redirects to your default configured search engine, and then adds your query to the URL.</p>
-                <video autoplay loop muted playsinline width="700">
-                  <source src="./wow.mp4" type="video/mp4">
-                </video>
-                
-                <h4>Rendering</h4>
-                <p>Once the HTML arrives, after the networking calls, the browser turns it into pixels through a few steps:</p>
-                <ol>
-                <li>Parse HTML and CSS, and convert into a structured tree, called the Document Object Model (DOM).</li>
-                <li>For all elements parsed, figure out where on the page they go (x and y positions)</li>
-                <li>Paint all the elements corresponding to the styling rules (colors, borders, backgrounds)</li>
-                </ol>
-                <h4>JavaScript</h4>
-                <p>Without JavaScript, all webpages would be <strong>static</strong>: you couldn't interact with them. JavaScript allows websites to define how the user can interact with their website. Clicks, text input, and mouse position can all be tracked and used with JavaScript.</p>
-                <p><em>How does it run?</em></p>
-                <p>All browsers ship with a <strong>JavaScript Engine</strong>. For Google Chrome it's called <em>V8</em>, and in WebKit (Safari), it's called <em>JavaScriptCore</em>.</p>
-                <p>The engine takes JavaScript from your HTML page (through <code>&lt;script&gt;</code> tags), compiles it to machine code (binary) and executes it.</p>
-                <h3>API and OAuth</h3>
-                <hr />
-                <h3>What's an API?</h3>
-                <p>an Application Programming Interface is a <em>contract</em> that web servers expose, with a set of (method, path) pairs, and how it responds to them.</p>
-                <p>Ex: <code>GET https://mail.google.com/primary/</code>, <code>GET https://mail.google.com/events</code></p>
-                <p>That list is usually made public through documentation.</p>
-                <p>An important clarification is that even though API implies the contract is only used for programmatic interactions, endpoints that regular users access, such as <code>/</code>, or <code>/index.html</code>, count as endpoints OF the Application Programming Interface. So technically, every web server has an API.</p>
-                <p>Typically, when people talk about APIs they mean the set of (method, path) pairs deliberately designed to communicate with other programs. Usually programs with APIs return JSON instead of HTML and CSS.</p>
-                <p>HTTP is how you transport requests, and the API explains what requests you can send.</p>
-                <h3>What's an API Key?</h3>
-                <p>Let's say you're running a server. You provide a secret pumpkin pie recipe, and you only want to give it to people who you know. Without API Keys, you would get a request from an IP address, but you wouldn't be able to identify who sent that request. Even if your friend tells you their IP address and you add it to your whitelist, their external IP address could change at any point.</p>
-                <p>Instead, you can give your friend an API Key, some long string of letters and digits. You store it in your database, and then they send a request to your server with the API Key, you verify with your database, and supply them with the secret recipe.</p>
-                <p>That's what API Keys are used for. A web server provides you with a credential that you store somewhere, and you attach that credential when you send requests to that web server.</p>
-                <p><em>what does the request look like with the API Key?</em></p>
-                <p>There are three ways to include API Keys in requests:</p>
-                <ol>
-                <li>Query parameters</li>
-                <li>Authorization headers</li>
-                <li>Custom headers</li>
-                </ol>
-                <h4>Query Parameters</h4>
-                <p>Remember that new URL that Chrome made when I entered '<em>wow!</em>' ?</p>
-                <p><img alt="Query parameter on google.com" src="image-3.png" /></p>
-                <p>That <code>q=wow!</code> after the <code>?</code> is called a <strong>query parameter</strong>, and it's used to give extra information when talking to a web server. The <code>?</code> marks where the query string (all query parameters) begins, and multiple query parameters are separated by <code>&amp;</code>.</p>
-                <p><img alt="Multiple query parameters on google.com" src="image-6.png" /></p>
-                <p>Once received, Google's servers parse them into a dictionary. </p>
-                <p><code>{q: "wow!", oq: "wow!", sourceid: "chrome", ie: "UTF-8"}</code></p>
-                <p>Google uses these parameters to personalize the experience. Instead of just requesting the HTML and CSS at the <code>/search</code> path, users can give Google extra information, and Google can change the response.</p>
-                <p>API Keys are commonly entered in the query string as a query parameter. The only difference is the URL is constructed programmatically instead of being manually typed into the search bar. Functionally though, it's very similar. The same steps are called when you try to connect to a web server with the programmatically constructed URL: <code>getaddrinfo(domain)</code>, <code>connect(IP:443)</code>, the TLS handshake, and HTTP request all happen.</p>
-                <h4>Authorization Headers</h4>
-                <p>In every HTTP request, the structure looks like this:</p>
-                <ol>
-                <li>Request line: <code>GET / HTTP/1.1</code></li>
-                <li><strong>Headers</strong>: <code>Host: google.com</code></li>
-                <li>Empty Line separating headers from the body</li>
-                <li>Body: data to insert if using POST/PUT/PATCH methods</li>
-                </ol>
-                <p>In the query parameter method, the API key goes in the request line. If instead you're using the authorization header method, the API key is added as a header.</p>
-                <p>The end result is the same, web servers just parse the API key out differently.</p>
-                <p>The header typically looks like this: <code>Authorization: Bearer AIzaSyD-9tSrke72PouQMnMX</code></p>
-                <p>Authorization is the standard for telling the web server that you included a header used to for verifying your application has access, and BEARER is used to tell the web server that you have a key that's supposed to give you direct access. In other words: </p>
-                <p><em>'I am the bearer of this key, which is supposed to give me special access to something'</em></p>
-                <h4>Custom Headers</h4>
-                <p>Some APIs invent their own header for processing API Keys, instead of using <code>Authorization</code>. In this case, API designers pick their own header name, and document it. Developers read the documentation and make sure their requests use the right header.</p>
-                <p>Example:</p>
-                <pre><code>GET /v1/forecast?city=NYC HTTP/1.1
-                Host: api.weather.example
-                X-Api-Key: AIzaSyD-9tSrke72PouQMnMX
-                </code></pre>
-                <p><em>Why would you ever want to use a custom header?</em></p>
-                <p>Sometimes servers want to reserve <code>Authorization</code> for something else, like a token given at the start of a session for user auth.</p>
-                <h3>What's OAuth?</h3>
-                <p><img alt="alt text" src="image-7.png" /></p>
-                <h4>The issue with API Keys</h4>
-                <p>API Keys identify an application, not a user. What if a web server wants specific users to access <strong>their data</strong>, using your application? An API Key by itself can't represent hundreds of users on your application.</p>
-                <p>To set up Google Calendar integration, for example, Calenduel needs to request Google Calendar's servers, provide evidence that the user has given permission, and then retrieve the user's sensitive calendar events. </p>
-                <p>It seems like the only way to make this work would be to ask the web service for an individual API Key for every user.</p>
-                <p>That's basically what Open Authorization (OAuth) is. You send the user to login to their account, and then they're prompted to give your application access to their information, and if they click <code>Allow</code>, they're redirected to one of your endpoints with a token, and some miscellaneous info. You use that token in the <code>Authorization:</code> header instead of one API key for all your users.</p>
-                <p>Let's go through the full flow assuming you want to access a user's Google Calendar events:</p>
-                <p>The user clicks on <code>Connect Google Calendar</code>. Your website's JS tells the browser to make an HTTP request:</p>
-                <pre><code>GET /o/oauth2/v2/auth?... HTTP/1.1
-                Host: accounts.google.com
-                ...
-                </code></pre>
-                <p>The user sees the resulting page, logs in to their Google account, selects scopes to allow the application to access, and then clicks <code>Allow</code>. Then, Google's webpage
-                  redirects to your website by giving a specific HTTP response:</p>
-                <pre><code>HTTP/1.1 302 Found
-                Location: https://calenduel.com/auth/callback#access_token=...&amp;token_type=Bearer&amp;expires_in=3599&amp;scope=https://www.googleapis.com/auth/calendar.readonly
-                </code></pre>
-                <p>That tells the browser 'I know what webpage you're looking for, and it's at this location', or in other words it just redirects to a new URL.</p>
-                <p>The little <code>#</code> character indicates a URL fragment, which lives <strong>in the browser</strong>, not the server. You may have noticed it to indicate which heading to start at in a
-                  webpage:</p>
-                <p><img alt="alt text" src="image-8.png" /></p>
-                <p>That's because the browser determines at what position to display the content, the server gives the HTML and CSS, and the browser determines what section the user
-                should see.</p>
-                <p>Once the user is redirected to your website with the access_token, the browser stores the token at
-                <code>window.location.hash</code>, some location in your browser.</p>
-                <p>From that point on, the JS code from the web server running locally on your machine will ask the browser to get the user's data from www.googleapis.com with the locally stored token.</p>
-                <pre><code>GET /calendar/v3/calendars/primary/events HTTP/1.1
-                Host: www.googleapis.com
-                Authorization: Bearer ya29.a0AfH6...
-                </code></pre>
-                <p>If <code>www.googleapis.com</code> verifies your token is valid, it will respond with status code <code>200</code>, and with the user's events in JSON, in the <em>body</em> part of the response.</p>
-                <p>Then, as the application developer, you can use <code>fetch()</code> with query parameters to get whatever data you want.</p>
+<h2>What I learned</h2>
+<h3>Networking</h3>
+<p>Websites communicate with each other using Hypertext Transfer Protocol. Some client sends a GET or POST request and gets a response back from whatever server they sent it to. Some application on your computer asks your operating system to do networking calls, and you magically get back a response from the server with a status code and optionally data you requested.</p>
+<p>When you send requests using http, you have to follow a certain structure looking something like this: <code>https://gmail.com/</code>, where https is the <strong>scheme</strong>, gmail.com is the host, and anything past the forward slash is the <strong>path</strong>. The default path is <code>/</code>, and each website defines where that path leads (usually to the website homepage). </p>
+<p>What are the steps though? How does typing <code>gmail.com</code> allow us to communicate with Google?</p>
+<p>First, your browser (like Google Chrome), calls an OS function: <code>getaddrinfo(gmail.com)</code>. Your OS does some magic, and spits out the IP address: <code>142.250.80.69</code>. Chrome tells the OS to open a <strong>socket</strong> to that IP on port <code>443</code> (the default for https). After that, there&rsquo;s a stream set up where Google Chrome can communicate with Google&rsquo;s servers (hosting <code>gmail.com</code>). Then, <strong>encryption</strong> is set up through the Transport Layer Security. Then, Google&rsquo;s servers read your request and send a response. In this case, Google Chrome receives <code>HTTP/1.1 301 Moved Permanently</code>, because gmail.com redirects to <code>mail.google.com</code>. Then, Chrome repeats the whole process with <code>mail.google.com</code>. Eventually, we&rsquo;ll get an HTML page, which Chrome parses and renders.</p>
+<p><img alt="diagram of described networking process" src="networking diagram.png" /></p>
+<hr />
+<h3>Browsers</h3>
+<p>I know some examples of browsers, like Google Chrome, Safari, and Firefox, but what do they do?</p>
+<p>Three things:</p>
+<ol>
+<li>Makes network calls</li>
+<li>Renders HTML and CSS</li>
+<li>Runs JavaScript (ECMAScript, actually 🤓)</li>
+</ol>
+<h4>Network calls</h4>
+<p>We already touched on this, but whenever you enter a <strong>domain name</strong>, like <code>google.com</code>, your browser is how you communicate with the server that provides that website. It handles communication with your OS, calling functions like <code>getaddrinfo()</code> and <code>connect()</code>.</p>
+<p><img alt="image of the search bar in Google Chrome" src="image.png" /></p>
+<p>That little search bar in Google Chrome is where you put in the URL of a website you want to visit, and then Chrome runs those OS functions to establish connections and retrieve HTML and CSS for you.</p>
+<p><em>But Zach, you can search up random terms and get search results</em></p>
+<p>Yeah, that&rsquo;s because if you didn&rsquo;t input a URL, it redirects to your default configured search engine, and then adds your query to the URL.</p>
+<video autoplay loop muted playsinline width="700">
+  <source src="./wow.mp4" type="video/mp4">
+</video>
+
+<h4>Rendering</h4>
+<p>Once the HTML arrives, after the networking calls, the browser turns it into pixels through a few steps:</p>
+<ol>
+<li>Parse HTML and CSS, and convert into a structured tree, called the Document Object Model (DOM).</li>
+<li>For all elements parsed, figure out where on the page they go (x and y positions)</li>
+<li>Paint all the elements corresponding to the styling rules (colors, borders, backgrounds)</li>
+</ol>
+<h4>JavaScript</h4>
+<p>Without JavaScript, all webpages would be <strong>static</strong>: you wouldn&rsquo;t be able to interact with them. JavaScript allows websites to define how the user can interact with their website. Clicks, text input, and mouse position can all be tracked and used with JavaScript.</p>
+<p><em>How does it run?</em></p>
+<p>All browsers ship with a <strong>JavaScript Engine</strong>. For Google Chrome it&rsquo;s called <em>V8</em>, and in WebKit (Safari), it&rsquo;s called <em>JavaScriptCore</em>.</p>
+<p>The engine takes JavaScript from your HTML page (through <code>&lt;script&gt;</code> tags), compiles it to machine code (binary) and executes it.</p>
+<h3>API and OAuth</h3>
+<hr />
+<h3>What&rsquo;s an API?</h3>
+<p>an Application Programming Interface is a <em>contract</em> that web servers expose, with a set of (method, path) pairs, and how it responds to them.</p>
+<p>Ex: <code>GET https://mail.google.com/primary/</code>, <code>GET https://mail.google.com/events</code></p>
+<p>That list is usually made public through documentation.</p>
+<p>An important clarification is that even though API implies the contract is only used for programmatic interactions, endpoints that regular users access, such as <code>/</code>, or <code>/index.html</code>, count as endpoints OF the Application Programming Interface. So technically, every web server has an API.</p>
+<p>Typically, when people talk about APIs they mean the set of (method, path) pairs deliberately designed to communicate with other programs. Usually programs with APIs return JSON instead of HTML and CSS.</p>
+<p>HTTP is how you transport requests, and the API explains what requests you can send.</p>
+<h3>What&rsquo;s an API Key?</h3>
+<p>Let&rsquo;s say you&rsquo;re running a server. You provide a secret pumpkin pie recipe, and you only want to give it to people who you know. Without API Keys, you would get a request from an IP address, but you wouldn&rsquo;t be able to identify who sent that request. Even if your friend tells you their IP address and you add it to your whitelist, their external IP address could change at any point.</p>
+<p>Instead, you can give your friend an API Key, some long string of letters and digits. You store it in your database, and then they send a request to your server with the API Key, you verify with your database, and supply them with the secret recipe.</p>
+<p>That&rsquo;s what API Keys are used for. A web server provides you with a credential that you store somewhere, and you attach that credential when you send requests to that web server.</p>
+<p><em>what does the request look like with the API Key?</em></p>
+<p>There are three ways to include API Keys in requests:</p>
+<ol>
+<li>Query parameters</li>
+<li>Authorization headers</li>
+<li>Custom headers</li>
+</ol>
+<h4>Query Parameters</h4>
+<p>Remember that new URL that Chrome made when I entered &lsquo;<em>wow!</em>&rsquo; ?</p>
+<p><img alt="Query parameter on google.com" src="image-3.png" /></p>
+<p>That <code>q=wow!</code> after the <code>?</code> is called a <strong>query parameter</strong>, and it&rsquo;s used to give extra information when talking to a web server. The <code>?</code> marks where the query string (all query parameters) begins, and multiple query parameters are separated by <code>&amp;</code>.</p>
+<p><img alt="Multiple query parameters on google.com" src="image-6.png" /></p>
+<p>Once received, Google&rsquo;s servers parse them into a dictionary. </p>
+<p><code>{q: "wow!", oq: "wow!", sourceid: "chrome", ie: "UTF-8"}</code></p>
+<p>Google uses these parameters to personalize the experience. Instead of just requesting the HTML and CSS at the <code>/search</code> path, users can give Google extra information, and Google can change the response.</p>
+<p>API Keys are commonly entered in the query string as a query parameter. The only difference is the URL is constructed programmatically instead of being manually typed into the search bar. Functionally though, it&rsquo;s very similar. The same steps are called when you try to connect to a web server with the programmatically constructed URL: <code>getaddrinfo(domain)</code>, <code>connect(IP:443)</code>, the TLS handshake, and HTTP request all happen.</p>
+<h4>Authorization Headers</h4>
+<p>In every HTTP request, the structure looks like this:</p>
+<ol>
+<li>Request line: <code>GET / HTTP/1.1</code></li>
+<li><strong>Headers</strong>: <code>Host: google.com</code></li>
+<li>Empty Line separating headers from the body</li>
+<li>Body: data to insert if using POST/PUT/PATCH methods</li>
+</ol>
+<p>In the query parameter method, the API key goes in the request line. If instead you&rsquo;re using the authorization header method, the API key is added as a header.</p>
+<p>The end result is the same, web servers just parse the API key out differently.</p>
+<p>The header typically looks like this: <code>Authorization: Bearer AIzaSyD-9tSrke72PouQMnMX</code></p>
+<p>Authorization is the standard for telling the web server that you included a header used to for verifying your application has access, and BEARER is used to tell the web server that you have a key that&rsquo;s supposed to give you direct access. In other words: </p>
+<p><em>&lsquo;I am the bearer of this key, which is supposed to give me special access to something&rsquo;</em></p>
+<h4>Custom Headers</h4>
+<p>Some APIs invent their own header for processing API Keys, instead of using <code>Authorization</code>. In this case, API designers pick their own header name, and document it. Developers read the documentation and make sure their requests use the right header.</p>
+<p>Example:</p>
+<pre><code>GET /v1/forecast?city=NYC HTTP/1.1
+Host: api.weather.example
+X-Api-Key: AIzaSyD-9tSrke72PouQMnMX
+</code></pre>
+<p><em>Why would you ever want to use a custom header?</em></p>
+<p>Sometimes servers want to reserve <code>Authorization</code> for something else, like a token given at the start of a session for user auth.</p>
+<h3>What&rsquo;s OAuth?</h3>
+<p><img alt="alt text" src="image-7.png" /></p>
+<h4>The issue with API Keys</h4>
+<p>API Keys identify an application, not a user. What if a web server wants specific users to access <strong>their data</strong>, using your application? An API Key by itself can&rsquo;t represent hundreds of users on your application.</p>
+<p>To set up Google Calendar integration, for example, Calenduel needs to request Google Calendar&rsquo;s servers, provide evidence that the user has given permission, and then retrieve the user&rsquo;s sensitive calendar events. </p>
+<p>It seems like the only way to make this work would be to ask the web service for an individual API Key for every user.</p>
+<p>That&rsquo;s basically what Open Authorization (OAuth) is. You send the user to login to their account, and then they&rsquo;re prompted to give your application access to their information, and if they click <code>Allow</code>, they&rsquo;re redirected to one of your endpoints with a token, and some miscellaneous info. You use that token in the <code>Authorization:</code> header instead of one API key for all your users.</p>
+<p>Let&rsquo;s go through the full flow assuming you want to access a user&rsquo;s Google Calendar events:</p>
+<p>The user clicks on <code>Connect Google Calendar</code>. Your website&rsquo;s JS tells the browser to make an HTTP request:</p>
+<pre><code>GET /o/oauth2/v2/auth?... HTTP/1.1
+Host: accounts.google.com
+...
+</code></pre>
+<p>The user sees the resulting page, logs in to their Google account, selects scopes to allow the application to access, and then clicks <code>Allow</code>. Then, Google&rsquo;s webpage
+  redirects to your website by giving a specific HTTP response:</p>
+<pre><code>HTTP/1.1 302 Found
+Location: https://calenduel.com/auth/callback#access_token=...&amp;token_type=Bearer&amp;expires_in=3599&amp;scope=https://www.googleapis.com/auth/calendar.readonly
+</code></pre>
+<p>That tells the browser &lsquo;I know what webpage you&rsquo;re looking for, and it&rsquo;s at this location&rsquo;, or in other words it just redirects to a new URL.</p>
+<p>The little <code>#</code> character indicates a URL fragment, which lives <strong>in the browser</strong>, not the server. You may have noticed it to indicate which heading to start at in a
+  webpage:</p>
+<p><img alt="alt text" src="image-8.png" /></p>
+<p>That&rsquo;s because the browser determines at what position to display the content, the server gives the HTML and CSS, and the browser determines what section the user
+should see.</p>
+<p>Once the user is redirected to your website with the access_token, the browser stores the token at
+<code>window.location.hash</code>, some location in your browser.</p>
+<p>From that point on, the JS code from the web server running locally on your machine will ask the browser to get the user&rsquo;s data from www.googleapis.com with the locally stored token.</p>
+<pre><code>GET /calendar/v3/calendars/primary/events HTTP/1.1
+Host: www.googleapis.com
+Authorization: Bearer ya29.a0AfH6...
+</code></pre>
+<p>If <code>www.googleapis.com</code> verifies your token is valid, it will respond with status code <code>200</code>, and with the user&rsquo;s events in JSON, in the <em>body</em> part of the response.</p>
+<p>Then, as the application developer, you can use <code>fetch()</code> with query parameters to get whatever data you want.</p>
             </section>
 
             <section class="section">
-                <h2>What's still confusing</h2>
-                <p>What are the differences between http and https?</p>
-                <p>How does TLS work?</p>
-                <p>How does the OS do the magical commands it provides, like <code>connect()</code> and <code>getaddrinfo()</code>?</p>
-                <p>How does the browser run JavaScript on your hardware through V8?</p>
-                <p>How does a web server request, with all the different parts in the structure, get eventually read and parsed?</p>
-                <p>What happens if you give the correct request line, but an invalid header? Does it just ignore it?</p>
-                <p>How does browser storage actually work? Where is <code>window.location.hash</code> stored?</p>
+<h2>What&rsquo;s still confusing</h2>
+<p>What are the differences between http and https?</p>
+<p>How does TLS work?</p>
+<p>How does the OS do the magical commands it provides, like <code>connect()</code> and <code>getaddrinfo()</code>?</p>
+<p>How does the browser run JavaScript on your hardware through V8?</p>
+<p>How does a web server request, with all the different parts in the structure, get eventually read and parsed?</p>
+<p>What happens if you give the correct request line, but an invalid header? Does it just ignore it?</p>
+<p>How does browser storage actually work? Where is <code>window.location.hash</code> stored?</p>
             </section>
         </article>
     </main>

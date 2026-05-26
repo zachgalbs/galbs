@@ -128,6 +128,26 @@ h3 {
     margin: 1.75rem 0 0.5rem;
 }
 
+/* Group header: h3 immediately followed by hr (category dividers) */
+h3:has(+ hr) {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: -0.01em;
+    margin: 3rem 0 0;
+}
+
+h3 + hr {
+    margin: 0.5rem 0 2rem;
+}
+
+h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.4rem 0 0.4rem;
+    color: var(--text);
+}
+
 p {
     margin-bottom: 1.2rem;
     color: var(--text);
@@ -137,6 +157,17 @@ p {
     color: var(--muted);
     font-size: 0.95rem;
     font-style: italic;
+}
+
+blockquote {
+    margin: 1.5rem 0;
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
 }
 
 .experiment-meta {
@@ -223,6 +254,12 @@ img {
     display: block;
 }
 
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+}
+
 .log-list {
     list-style: none;
     padding-left: 1.5rem;
@@ -230,6 +267,16 @@ img {
 
 .log-list li {
     margin-bottom: 0.4rem;
+}
+
+ol {
+    padding-left: 2rem;
+    margin: 0.6rem 0 1.2rem;
+}
+
+ol li {
+    margin-bottom: 0.4rem;
+    padding-left: 0.25rem;
 }
 
 @media (max-width: 640px) {
