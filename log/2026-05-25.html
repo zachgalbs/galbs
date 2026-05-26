@@ -65,7 +65,9 @@
 <p>We already touched on this, but whenever you enter a <strong>domain name</strong>, like <code>google.com</code>, your browser is how you communicate with the server that provides that website. It handles communication with your OS, calling functions like <code>getaddrinfo()</code> and <code>connect()</code>.</p>
 <p><img alt="image of the search bar in Google Chrome" src="image.png" /></p>
 <p>That little search bar in Google Chrome is where you put in the URL of a website you want to visit, and then Chrome runs those OS functions to establish connections and retrieve HTML and CSS for you.</p>
+<blockquote>
 <p><em>But Zach, you can search up random terms and get search results</em></p>
+</blockquote>
 <p>Yeah, that&rsquo;s because if you didn&rsquo;t input a URL, it redirects to your default configured search engine, and then adds your query to the URL.</p>
 <video autoplay loop muted playsinline width="700">
   <source src="./wow.mp4" type="video/mp4">
@@ -80,7 +82,9 @@
 </ol>
 <h4>JavaScript</h4>
 <p>Without JavaScript, all webpages would be <strong>static</strong>: you wouldn&rsquo;t be able to interact with them. JavaScript allows websites to define how the user can interact with their website. Clicks, text input, and mouse position can all be tracked and used with JavaScript.</p>
+<blockquote>
 <p><em>How does it run?</em></p>
+</blockquote>
 <p>All browsers ship with a <strong>JavaScript Engine</strong>. For Google Chrome it&rsquo;s called <em>V8</em>, and in WebKit (Safari), it&rsquo;s called <em>JavaScriptCore</em>.</p>
 <p>The engine takes JavaScript from your HTML page (through <code>&lt;script&gt;</code> tags), compiles it to machine code (binary) and executes it.</p>
 <h3>API and OAuth</h3>
@@ -96,7 +100,9 @@
 <p>Let&rsquo;s say you&rsquo;re running a server. You provide a secret pumpkin pie recipe, and you only want to give it to people who you know. Without API Keys, you would get a request from an IP address, but you wouldn&rsquo;t be able to identify who sent that request. Even if your friend tells you their IP address and you add it to your whitelist, their external IP address could change at any point.</p>
 <p>Instead, you can give your friend an API Key, some long string of letters and digits. You store it in your database, and then they send a request to your server with the API Key, you verify with your database, and supply them with the secret recipe.</p>
 <p>That&rsquo;s what API Keys are used for. A web server provides you with a credential that you store somewhere, and you attach that credential when you send requests to that web server.</p>
+<blockquote>
 <p><em>what does the request look like with the API Key?</em></p>
+</blockquote>
 <p>There are three ways to include API Keys in requests:</p>
 <ol>
 <li>Query parameters</li>
@@ -124,7 +130,9 @@
 <p>The end result is the same, web servers just parse the API key out differently.</p>
 <p>The header typically looks like this: <code>Authorization: Bearer AIzaSyD-9tSrke72PouQMnMX</code></p>
 <p>Authorization is the standard for telling the web server that you included a header used to for verifying your application has access, and BEARER is used to tell the web server that you have a key that&rsquo;s supposed to give you direct access. In other words: </p>
+<blockquote>
 <p><em>&lsquo;I am the bearer of this key, which is supposed to give me special access to something&rsquo;</em></p>
+</blockquote>
 <h4>Custom Headers</h4>
 <p>Some APIs invent their own header for processing API Keys, instead of using <code>Authorization</code>. In this case, API designers pick their own header name, and document it. Developers read the documentation and make sure their requests use the right header.</p>
 <p>Example:</p>
@@ -132,7 +140,9 @@
 Host: api.weather.example
 X-Api-Key: AIzaSyD-9tSrke72PouQMnMX
 </code></pre>
+<blockquote>
 <p><em>Why would you ever want to use a custom header?</em></p>
+</blockquote>
 <p>Sometimes servers want to reserve <code>Authorization</code> for something else, like a token given at the start of a session for user auth.</p>
 <h3>What&rsquo;s OAuth?</h3>
 <p><img alt="alt text" src="image-7.png" /></p>
