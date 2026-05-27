@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Day 4 of rebuilding Calenduel">
+    <title>Day 4 - Log - Zach</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Day 4: Google Calendar integration</h1>
+                <p class="subtitle">May 27, 2026</p>
+            </header>
+
+            <section class="section">
+<h2>What I worked on</h2>
+<ul class="log-list">
+<li>Set up OAuth flow</li>
+<li>Displayed users calendar tasks for the day</li>
+<li>Started networking course</li>
+</ul>
+            </section>
+
+            <section class="section">
+<h2>What I learned</h2>
+<h3>Networking course</h3>
+<p>Day 2 made me realize how much I had to learn before becoming comfortable with developing this application, so I decided to take a networking course alongside the development of this project.</p>
+<p>I&rsquo;m going to be taking &ldquo;The Bits and Bytes of Computer Networking&rdquo; from Google via Coursera. My hope is that I&rsquo;ll be able to build a mental model for how some of the networking in my project works, and then use the mental model enough to keep a lot of knowledge from the course after I finish it.</p>
+<h3>Conceptual understanding of OAuth Flow</h3>
+<p>My understanding of the OAuth flow looks like this:</p>
+<ul class="log-list">
+<li>You send the user to Google&rsquo;s authentication page and have them agree to our scope(s)</li>
+<li>Google sends them back to our website with an <code>access_token</code> </li>
+<li>The browser parse the <code>access_token</code> out of the URL they requested, store the token and the expiration date, and then call the Calendar API whenever you want user data.</li>
+</ul>
+<p>There&rsquo;s one issue with this approach though:</p>
+<blockquote>
+<p>How do you know if the request back to your website is being sent from Google?</p>
+</blockquote>
+<p>Theoretically, the request could come from an attacker, and then you would be binding the user&rsquo;s Calenduel account to the attacker&rsquo;s Google Calendar.</p>
+<p>This could lead to the user adding events with sensitive information to the attacker&rsquo;s calendar.</p>
+<p>To avoid this, there&rsquo;s another step called the <strong>state</strong> parameter.</p>
+<p>Before redirecting the user to Google&rsquo;s auth URL, you create a random number, store it in the browser, and add it as a query parameter to the request.</p>
+<p>When Google redirects the user to your website after the auth flow, it copies that value back in the request. You verify it matches the value stored in the browser, and then you know the <code>access_token</code> belongs to the user.</p>
+<p>The attacker can&rsquo;t guess the random number you generated, so if they send a request to your browser with a state parameter that doesn&rsquo;t match yours, you know it&rsquo;s illegitimate.</p>
+<blockquote>
+<p>The Google Identity Services (GIS) SDK handles the redirect, token handoff, and state for us</p>
+</blockquote>
+<h3>Implementation of OAuth flow</h3>
+<h4>Loading GIS SDK</h4>
+<p>Since we&rsquo;re using the GIS SDK, the first step is to load it:</p>
+<p><code>&lt;script src="https://accounts.google.com/gsi/client" async defer&gt;&lt;/script&gt;</code></p>
+<blockquote>
+<p>&lsquo;gsi&rsquo; in the path refers to &lsquo;Google Sign-In&rsquo;.</p>
+</blockquote>
+<p>This script creates a <strong>google</strong> member variable under the <strong>window</strong> object. The window object holds all information about the user&rsquo;s tab, and the <strong>google</strong> object contains all functionality of the GIS SDK.</p>
+<h4>Setting up .env files</h4>
+<p>We need the Client ID so Google knows who&rsquo;s sending the request, so let&rsquo;s set that in <code>.env.local</code>:</p>
+<p><code>VITE_GOOGLE_CLIENT_ID=your-client-id-here.apps.googleusercontent.com</code></p>
+<blockquote>
+<p>the <code>VITE</code> prefix tells Vite to make the variable visible to the browser</p>
+</blockquote>
+<h4>Adding the token client</h4>
+<p>To get access tokens for each user, we need to set up a <strong>token client</strong>, which sends requests to the <code>accounts.google.com/o/oauth2/v2/auth</code> endpoint with all the necessary information:</p>
+<pre><code>const client = window.google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: https://www.googleapis.com/auth/calendar.readonly,
+    callback: (response) =&gt; {},
+    error_callback: (error) =&gt; {},
+})
+</code></pre>
+<p>In the scope, we include</p>
+            </section>
+
+            <section class="section">
+<h2>What&rsquo;s still confusing</h2>
+<p>How does Vite actually build the project? How does it make certain available to the browser, like &lsquo;VITE_GOOGLE_CLIENT_ID&rsquo;?</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>
