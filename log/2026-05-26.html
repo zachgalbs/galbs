@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Day 3 of rebuilding Calenduel">
+    <title>Day 3 - Log - Zach</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Day 3: Google Cloud Console setup</h1>
+                <p class="subtitle">May 26, 2026</p>
+            </header>
+
+            <section class="section">
+<h2>What I worked on</h2>
+<ul class="log-list">
+<li>Created project</li>
+<li>Added OAuth credential</li>
+</ul>
+            </section>
+
+            <section class="section">
+<h2>What I learned</h2>
+<p>Setting up Google Calendar integration requires first configuring the Google Cloud Console correctly.</p>
+<h3>Google Cloud Console Setup</h3>
+<p>To set up Calendar integration, you need to make a new project, enable the Google Calendar API, configure the OAuth consent screen, and finally create an OAuth Client ID.</p>
+<blockquote>
+<p><em>what is an OAuth Client ID, and why is it necessary?</em></p>
+</blockquote>
+<p>It helps identify your application. Since OAuth implies a three-party negotiation, Google needs to know information about your application, like what it does and the type of services it accesses so that the user knows who they&rsquo;re giving their data to.</p>
+<p>It&rsquo;s also used as a way for Google to keep track of what the user has agreed to. After the user agrees from the consent screen, Google stores that the user has granted <em>this Client ID</em> access to the <code>calendar.readonly</code> scope.</p>
+<p>Lastly, it&rsquo;s used so that Google can verify that the application&rsquo;s verified website domain is sending requests with the Client ID. Since the Client ID is public, Google needs to verify that the developer&rsquo;s website is the one sending the request.</p>
+<p>Here&rsquo;s what my Google Cloud Console setup looks like:</p>
+<p><img alt="alt text" src="Screenshot 2026-05-27 at 6.17.01 PM.png" /></p>
+            </section>
+
+            <section class="section">
+<h2>What&rsquo;s still confusing</h2>
+<p>How do service accounts work?</p>
+<p>What are client secrets and what are they used for?</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>
