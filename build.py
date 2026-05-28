@@ -142,7 +142,11 @@ def parse_frontmatter(text, source):
         if ":" not in line:
             continue
         key, _, value = line.partition(":")
-        meta[key.strip()] = value.strip()
+        value = value.strip()
+        # Strip surrounding quotes so YAML-quoted values don't leak into output
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+            value = value[1:-1]
+        meta[key.strip()] = value
     for required in ("day", "title", "date", "description"):
         if required not in meta:
             sys.exit(f"{source}: frontmatter missing required key '{required}'")
