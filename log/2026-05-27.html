@@ -86,20 +86,52 @@
 <p>the <code>VITE</code> prefix tells Vite to make the variable visible to the browser</p>
 </blockquote>
 <h4>Adding the token client</h4>
-<p>To get access tokens for each user, we need to set up a <strong>token client</strong>, which sends requests to the <code>accounts.google.com/o/oauth2/v2/auth</code> endpoint with all the necessary information:</p>
+<p>To get access tokens for each user, we need to set up a <strong>token client</strong>, which sends the user to the <code>accounts.google.com/o/oauth2/v2/auth</code> endpoint with all the necessary information:</p>
 <pre><code>const client = window.google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
-    scope: https://www.googleapis.com/auth/calendar.readonly,
+    scope: 'https://www.googleapis.com/auth/calendar.readonly',
     callback: (response) =&gt; {},
     error_callback: (error) =&gt; {},
 })
 </code></pre>
-<p>In the scope, we include</p>
+<p>In the scope, we include whatever we want to be able to access from the user. In this case, we only care about reading their events.</p>
+<h4>Getting the access token</h4>
+<p>After adding the token client, we can call <code>client.requestAccessToken()</code>:</p>
+<ol>
+<li>GIS opens a popup to accounts.google.com/o/oauth2/v2/auth, carrying your client_id and scope.</li>
+<li>The user picks an account, sees the consent screen (&ldquo;Calenduel wants to view your calendar&rdquo;), and clicks Allow.</li>
+<li>Google issues an access token and hands it back to GIS via the popup.</li>
+<li>Your callback runs, with the token in response.access_token</li>
+</ol>
+<p>Lastly, we store the token so we don&rsquo;t have to re-authenticate every time.</p>
+<p>We opt to store the token in <code>sessionStorage</code>, some place in the browser where data persists on refresh, but clears when the tab is closed. We also store the time when the token expires. <code>getStoredToken()</code> checks if <code>Date.now()</code> &lt;= <code>expiresAt</code>. If it is, it returns the stored token, otherwise we request the token again.</p>
+<h4>Fetching calendar events</h4>
+<p>To actually get events, we need to query the endpoint <code>googleapis.com/calendar/v3/calendars/primary/events</code> with the access token, time window, and specific calendar of the user.</p>
+<blockquote>
+<p>&lsquo;primary&rsquo; represents the user&rsquo;s main calendar</p>
+</blockquote>
+<p>We add the time window as a query parameter to our URL, add the access token as an Authorization header, send the request, and get back the user&rsquo;s events in JSON.</p>
+<h4>Rendering calendar events</h4>
+<p>There are three pieces of data we potentially need to render:</p>
+<ul class="log-list">
+<li>The actual calendar events</li>
+<li>Whether the auth is loading</li>
+<li>An error message</li>
+</ul>
+<p>We start with a <em>Connect Google Calendar</em> button, and once the user clicks the button, we begin rendering these pieces of data:</p>
+<ul class="log-list">
+<li>If loading, we replace the button text with <em>Loading&hellip;</em></li>
+<li>If there was an error, we show the message</li>
+<li>If we get back no events, show <em>No events today</em></li>
+<li>If we get back events, render each with its time and title.</li>
+</ul>
+<p>That&rsquo;s it! Now we have the full Google Calendar integration.</p>
             </section>
 
             <section class="section">
 <h2>What&rsquo;s still confusing</h2>
 <p>How does Vite actually build the project? How does it make certain available to the browser, like &lsquo;VITE_GOOGLE_CLIENT_ID&rsquo;?</p>
+<p>How can I keep a long-lasting access_token so the user doesn&rsquo;t have to go through the authentication flow so often?</p>
             </section>
         </article>
     </main>
