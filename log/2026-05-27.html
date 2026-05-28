@@ -68,6 +68,7 @@
 <p>Before redirecting the user to Google&rsquo;s auth URL, you create a random number, store it in the browser, and add it as a query parameter to the request.</p>
 <p>When Google redirects the user to your website after the auth flow, it copies that value back in the request. You verify it matches the value stored in the browser, and then you know the <code>access_token</code> belongs to the user.</p>
 <p>The attacker can&rsquo;t guess the random number you generated, so if they send a request to your browser with a state parameter that doesn&rsquo;t match yours, you know it&rsquo;s illegitimate.</p>
+<p><img alt="Network diagram" src="2026-05-27-1.svg" /></p>
 <blockquote>
 <p>The Google Identity Services (GIS) SDK handles the redirect, token handoff, and state for us</p>
 </blockquote>
