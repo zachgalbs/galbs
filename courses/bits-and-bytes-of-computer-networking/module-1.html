@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Notes from Module 1 of The Bits and Bytes of Computer Networking.">
+    <title>Module 1: Introduction to Networking — The Bits and Bytes of Computer Networking</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <a href="/courses/">Courses</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Module 1: Introduction to Networking</h1>
+                <p class="subtitle">The Bits and Bytes of Computer Networking — Coursera (Google)</p>
+            </header>
+
+            <section class="section">
+<h2>Layers</h2>
+<h3>1. Physical</h3>
+<p>How to transport bits with electricity</p>
+<h3>2. Data Link</h3>
+<p>Structures bits as frames</p>
+<h3>3. Network</h3>
+<p>Allows networks to talk to each other through routers</p>
+<h3>4. Transport</h3>
+<p>Gets information to specific programs on servers</p>
+<h3>5. Application</h3>
+<p>Manipulates and renders data for end user</p>
+            </section>
+
+            <section class="section">
+<h2>Physical Layer</h2>
+<h3>Cables</h3>
+<p>Cables are used to transfer electrical signals, and then translated into bits.</p>
+<p>The most common cable used is a <strong>twisted pair</strong> copper cable, which has strings of copper twisted together to prevent crosstalk. Modern cables have multiple of these twisted copper cables, which allows <strong>full duplex</strong> communication.</p>
+<p><strong>crosstalk</strong> is when copper cables&rsquo; signals interfere with each other, corrupting the message.</p>
+<p><strong>full duplex</strong> communication is where you can send and receive data at the same time. This usually means some of the twisted pair cables are used to send signal, and some are used to receive signal.</p>
+<blockquote>
+<p>In modern networks you use all pairs for both receiving and sending</p>
+</blockquote>
+<p>Before full duplex (multiple twisted pair cables), computers would commonly send signals at the same time, causing collisions. To fix this, <strong>carrier sense multiple access with collision detection</strong>, or CSMA/CD was invented, where computers resend bits with a random time delay when a collision is detected.</p>
+<p><strong>half duplex</strong> is when you can only send or receive at one time.</p>
+<h3>Network ports</h3>
+<p>Once a twisted pair (ethernet cable) ends, it&rsquo;s connected to a network port, which exposes its data.</p>
+<p>The most common network port is called the <strong>Registered Jack 45</strong> port, and is the specific name for what people usually call <em>ethernet ports</em>.</p>
+<p>The ethernet port, or RJ45 port you see on your wall connects directly to a hub or switch through something called a <strong>patch panel</strong>. The patch panel has tons of RJ45 ports which are then wired to the hub or switch.</p>
+<p>The RJ45 port has two lights: the <strong>Link Light</strong>, and <strong>Activity Light</strong>. The Link Light proves there&rsquo;s some electrical connection between hardware, and the Activity Light shows data frames are moving across the wire.</p>
+<p>A <strong>hub</strong> is where a collection of cables are connected, and allows nodes on a network to communicate with each other. It&rsquo;s the most primitive method of connecting computers, and gives all traffic to all computers, giving the responsibility to the nodes to decide what data to process.</p>
+            </section>
+
+            <section class="section">
+<h2>Data Link Layer</h2>
+<blockquote>
+<p><em>How do nodes on a network know what data belongs to them?</em></p>
+</blockquote>
+<p>Through <strong>MAC Addresses</strong>. They&rsquo;re globally unique identifiers assigned to each device on a network so that traffic can be routed correctly.</p>
+<p>They&rsquo;re <strong>48 bits</strong>, and are <strong>globally unique</strong>, meaning no other device in the world will have the same MAC address as your device. This is possible because 48 bits allows 2^48 possibilities, or around half a quadrillion different combinations.</p>
+<p>MAC addresses are typically listed using hexadecimal numbers, which are base-16, meaning each hex digit has 4 bits, and each couple has 8 bits. In other words, each pair is an octet (or byte):</p>
+<p><code>9A:4B:22:F1:27:E2</code> is an example MAC address. It has 6 octets, or 48 bits.</p>
+<p>The <strong>first three octets</strong> in a MAC address correspond to the manufacturer who made the device. Manufacturers like Apple are given tons of different ranges of MAC addresses to give out to their devices from the IEEE (Institute of Electrical and Electronics Engineers).</p>
+<p>Every set of data sent through wires contains the <strong>destination MAC address</strong>, and each device looks at the destination MAC address, checks if it is theirs, and if not rejects the data.</p>
+<blockquote>
+<p><em>But isn&rsquo;t this super inefficient? Why does every device need to do this check?</em></p>
+</blockquote>
+<p>A <strong>switch</strong> is an intelligent hub, containing a computer on board that decides which nodes get data. This way, there&rsquo;s way less traffic on the network. The switch keeps a table of MAC addresses and connected cables, and simply sends the data through the cable corresponding to the destination MAC address</p>
+<blockquote>
+<p><em>What if it doesn&rsquo;t yet have an entry for a MAC address?</em></p>
+</blockquote>
+<p>The switch sends the data to every device, and when the recipient device sends its response, the switch parses, extracts the Source MAC address, and stores it.</p>
+<h3>Different types of requests</h3>
+<h4>1. Unicast</h4>
+<p>When a device intends for a message to be received by exactly one node. Includes the node&rsquo;s MAC address in its request.</p>
+<h4>2. Multicast</h4>
+<p>When a device intends for multiple, but not all, nodes to receive its message. MAC address <strong>group</strong>, that devices subscribe to. You cannot pick multiple devices to send a message to unless they agree.</p>
+<h4>3. Broadcast</h4>
+<p>All devices receive message. Uses MAC address <code>FF:FF:FF:FF:FF:FF</code>, which tells switch to route to all devices. Devices know to read data with this MAC address.</p>
+<h3>Ethernet Frame</h3>
+<blockquote>
+<p><em>How is the transmitted data structured?</em></p>
+</blockquote>
+<p>The <strong>Ethernet frame</strong>  defines the lowest-level structure of how bits between computers are transferred.</p>
+<p>Ethernet frames are structured with the following:</p>
+<h4>1. Preamble</h4>
+<p>Syncs up receiver of data. Sometimes, nodes can have varying processing speeds, so they could read from the wire every 5ms instead of every 3ms. The preamble is a 7 byte alternating sequence of 0&rsquo;s and 1&rsquo;s: <code>01010101...</code> so that the receiving node can get ready for the rest of the frame.</p>
+<p>The Starting Frame Delimiter is one byte marking where the preamble ends, by repeating 1 twice: <code>10101011</code></p>
+<h4>2. Destination MAC Address</h4>
+<h4>3. Source MAC Address</h4>
+<h4>4. VLAN</h4>
+<p>4 bytes, indicates if on Virtual LAN</p>
+<h4>5. Ether-type field</h4>
+<p>2 bytes, describing protocol of payload:
+- IPv4: <code>0x0800</code> or <code>0000 1000 0000 0000</code>
+- IPv6: <code>0x86DD</code>, or <code>1000 0110 1101 1101</code>
+- ARP: <code>0x0806</code>, or <code>0000 1000 0000 0110</code></p>
+<h4>6. Payload</h4>
+<p>46-1500 bytes</p>
+<h4>7. Frame Check Sequence</h4>
+<p>4 bytes, checksum value for frame, calculated using Cyclic Redundancy Check</p>
+<h3>Cyclic Redundancy Check</h3>
+<p>Does polynomial division, sets Frame Check Sequence to result.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>

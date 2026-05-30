@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Day 5 of rebuilding Calenduel">
+    <title>Day 5 - Log - Zach</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <a href="/courses/">Courses</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Day 5: Camera integration</h1>
+                <p class="subtitle">May 28, 2026</p>
+            </header>
+
+            <section class="section">
+<h2>What I worked on</h2>
+<p>Set up camera integration</p>
+<p>Implemented timelapse capturing</p>
+            </section>
+
+            <section class="section">
+<h2>What I learned</h2>
+<h3>Camera integration</h3>
+<p>To setup the camera on our website, there are two layers:</p>
+<h4>capture.ts</h4>
+<p><code>startCamera()</code> sends a request to the browser, which triggers a permission prompt, where the user gives camera access to the website. Once agreed, <code>getUserMedia({video: true, audio: false})</code> resolves to a MediaStream.</p>
+<p><code>stopStream()</code> loops over the stream&rsquo;s tracks and calls track.stop() on each, which cuts off camera access and the indicator light. (Just dropping the JS reference isn&rsquo;t enough because the camera stays on until the tracks are explicitly stopped.)</p>
+<h4>CameraRecorder.tsx</h4>
+<p>Handles the React UI on the website. Uses capture.ts when user interacts with website:</p>
+<p>When button is clicked, <code>startCamera()</code> is called. Stores the MediaStream in a reference to stop it later.</p>
+<p>When the session ends for some reason, this handles the UI for that, calling stopStream(), clearing the reference, and updating the UI to an idle state. </p>
+<p>As of now, all the camera functionality is live feed, but NOT stored anywhere. The next step is to <strong>record</strong> a video feed of the user, and</p>
+            </section>
+
+            <section class="section">
+<h2>What&rsquo;s still confusing</h2>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>
