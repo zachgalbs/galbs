@@ -112,10 +112,12 @@
 <h4>4. VLAN</h4>
 <p>4 bytes, indicates if on Virtual LAN</p>
 <h4>5. Ether-type field</h4>
-<p>2 bytes, describing protocol of payload:
-- IPv4: <code>0x0800</code> or <code>0000 1000 0000 0000</code>
-- IPv6: <code>0x86DD</code>, or <code>1000 0110 1101 1101</code>
-- ARP: <code>0x0806</code>, or <code>0000 1000 0000 0110</code></p>
+<p>2 bytes, describing protocol of payload:</p>
+<ul class="log-list">
+<li>IPv4: <code>0x0800</code> or <code>0000 1000 0000 0000</code></li>
+<li>IPv6: <code>0x86DD</code>, or <code>1000 0110 1101 1101</code></li>
+<li>ARP: <code>0x0806</code>, or <code>0000 1000 0000 0110</code></li>
+</ul>
 <h4>6. Payload</h4>
 <p>46-1500 bytes</p>
 <h4>7. Frame Check Sequence</h4>

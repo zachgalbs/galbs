@@ -109,6 +109,7 @@ The Starting Frame Delimiter is one byte marking where the preamble ends, by rep
 
 #### 5. Ether-type field
 2 bytes, describing protocol of payload:
+
 - IPv4: `0x0800` or `0000 1000 0000 0000`
 - IPv6: `0x86DD`, or `1000 0110 1101 1101`
 - ARP: `0x0806`, or `0000 1000 0000 0110`
