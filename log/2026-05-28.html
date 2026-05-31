@@ -41,7 +41,7 @@
             <section class="section">
 <h2>What I worked on</h2>
 <p>Set up camera integration</p>
-<p>Implemented timelapse capturing</p>
+<p>Implemented timelapse processing</p>
             </section>
 
             <section class="section">
@@ -60,8 +60,13 @@
 <p>I want the user to be able to click one button, start recording, forget about the website, and then end their study session, get a timelapse of the video, and share that timelapse with friends: a social incentive to study.</p>
 <p>To make this happen, we need to make it super easy for the user to download a timelapse of their study session.</p>
 <h3>Timelapse</h3>
-<p>First, we need to store the video after it ends:</p>
+<p>First, we need to store the video after it ends. To do this we add logic that, every 30 seconds, saves the clip to memory, and then once the user stops recording stitches the clips together into one video:</p>
 <p><img alt="alt text" src="image-15.png" /></p>
+<p>Then, we need to create a timelapse process that takes the full video, and compresses it into a short clip.</p>
+<p>Timelapse videos are just the original videos sped up. To do this, we can remove something like 9/10 frames from the video. In other words, we keep every Nth frame, and then play them at normal speed.</p>
+<p>I want the timelapse to be around 15 times shorter than the actual video, so we&rsquo;ll keep one out of every 15 frames.</p>
+<p><img alt="alt text" src="image-17.png" /></p>
+<p>That&rsquo;s it for today.</p>
             </section>
 
             <section class="section">
