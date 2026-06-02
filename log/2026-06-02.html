@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Day 6 of rebuilding Calenduel">
+    <title>Day 6 - Log - Zach</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme-preference');
+            const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+        })();
+    </script>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-home">galbs</a>
+            <div class="nav-links">
+                <a href="/about.html">About</a>
+                <a href="/log/">Log</a>
+                <a href="/courses/">Courses</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <article>
+            <header class="page-header">
+                <h1>Day 6: Study sessions</h1>
+                <p class="subtitle">June 2, 2026</p>
+            </header>
+
+            <section class="section">
+<h2>What I worked on</h2>
+<p>Set up study session UI</p>
+            </section>
+
+            <section class="section">
+<h2>What I learned</h2>
+<h3>How should the study session UI look?</h3>
+<p>I want to visit this website routinely, associating it with my study sessions. Visiting the website should be super easy, and starting a long study session should feel buttery smooth.</p>
+<p>There are two features I want for sure:</p>
+<ol>
+<li>
+<p>Timer/Stopwatch</p>
+<p>Use the most recent timer length as the default, make a button to start, which begins the recording and the timer.</p>
+<p>Should we have a stopwatch or a timer?</p>
+<p>I remember using pomodoro timers on my laptop, and without fail every time it cut off my focus when the timer hit the end, and I had to give myself extra time. Also, working felt less appealing when I had to hit a pre-determined goal.</p>
+<p>This makes me feel like a stopwatch would fit better, but there are some issues with that too. A stopwatch might give you less motivation to keep going if you don&rsquo;t have a goal to hit.</p>
+<p>The best approach I can think of is setting a stopwatch with a soft time limit. It doesn&rsquo;t notify you when you hit the goal, so you can stay focused, but keeps the &ldquo;let&rsquo;s see how far I can go&rdquo; mentality.</p>
+</li>
+<li>
+<p>Calendar integration</p>
+<p>You should be able to start a study session from your calendar. You have a list of tasks you need to get through (math homework, essay, etc), and you select one of them and start studying for it.</p>
+<p>A potential issue with this is that it might feel/look a little weird if you start the task like 15 minutes into the calendar event. It might be annoying to be locked into calendar integration, where you have to change the calendar event for the website to work correctly.</p>
+<p>One approach is you&rsquo;re both able to start an empty study session or start from the calendar. This makes the website a bit more complex and less intuitive, but it might be worth it to avoid annoyances that would come from only having calendar integration.</p>
+<p>We can revisit this later, for now I&rsquo;ll force the calendar integration.</p>
+</li>
+</ol>
+<h3>Making the Timer UI</h3>
+<p>I want to keep the screen empty and aesthetic. Most of the screen should be taken up by the stopwatch, with some room to see the recording and what task you&rsquo;re working on.</p>
+<p><img alt="alt text" src="image-19.png" /></p>
+<p>Now you can start study sessions from the calendar and download timelapses of your study sessions.</p>
+            </section>
+
+            <section class="section">
+<h2>What&rsquo;s still confusing</h2>
+<p>Is taking the full video required? Could I instead take images every minute or so and stitch them together? This would probably reduce battery drain.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <script src="/dark-mode.js"></script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 5 of rebuilding Calenduel">
-    <title>Day 5 - Log - Zach</title>
+    <meta name="description" content="Day 1 of rebuilding Calenduel">
+    <title>Day 1 - Log - Zach</title>
 
     <link rel="stylesheet" href="/style.css">
 
@@ -34,43 +34,39 @@
     <main class="content">
         <article>
             <header class="page-header">
-                <h1>Day 5: Camera integration</h1>
+                <h1>Day 1: Deployment</h1>
                 <p class="subtitle">May 28, 2026</p>
             </header>
 
             <section class="section">
 <h2>What I worked on</h2>
-<p>Set up camera integration</p>
-<p>Implemented timelapse processing</p>
+<ul class="log-list">
+<li>Set up project with vite: react and typescript</li>
+<li>Locally hosted website</li>
+<li>Set up github repository</li>
+<li>Deployed on vercel</li>
+</ul>
             </section>
 
             <section class="section">
 <h2>What I learned</h2>
-<h3>Camera integration</h3>
-<p>To setup the camera on our website, there are two layers:</p>
-<h4>capture.ts</h4>
-<p><code>startCamera()</code> sends a request to the browser, which triggers a permission prompt, where the user gives camera access to the website. Once agreed, <code>getUserMedia({video: true, audio: false})</code> resolves to a MediaStream.</p>
-<p><code>stopStream()</code> loops over the stream&rsquo;s tracks and calls track.stop() on each, which cuts off camera access and the indicator light. (Just dropping the JS reference isn&rsquo;t enough because the camera stays on until the tracks are explicitly stopped.)</p>
-<h4>CameraRecorder.tsx</h4>
-<p>Handles the React UI on the website. Uses capture.ts when user interacts with website:</p>
-<p>When button is clicked, <code>startCamera()</code> is called. Stores the MediaStream in a reference to stop it later.</p>
-<p>When the session ends for some reason, this handles the UI for that, calling stopStream(), clearing the reference, and updating the UI to an idle state. </p>
-<p><img alt="alt text" src="image-14.png" /></p>
-<p>As of now, all the camera functionality is live feed, but NOT stored anywhere. The next step is to <strong>record</strong> a video feed of the user studying, and store it somewhere.</p>
-<p>I want the user to be able to click one button, start recording, forget about the website, and then end their study session, get a timelapse of the video, and share that timelapse with friends: a social incentive to study.</p>
-<p>To make this happen, we need to make it super easy for the user to download a timelapse of their study session.</p>
-<h3>Timelapse</h3>
-<p>First, we need to store the video after it ends. To do this we add logic that, every 30 seconds, saves the clip to memory, and then once the user stops recording stitches the clips together into one video:</p>
-<p><img alt="alt text" src="image-15.png" /></p>
-<p>Then, we need to create a timelapse process that takes the full video, and compresses it into a short clip.</p>
-<p>Timelapse videos are just the original videos sped up. To do this, we can remove something like 9/10 frames from the video. In other words, we keep every Nth frame, and then play them at normal speed.</p>
-<p>I want the timelapse to be around 15 times shorter than the actual video, so we&rsquo;ll keep one out of every 15 frames.</p>
-<p><img alt="alt text" src="image-17.png" /></p>
-<p>Now the user can record and share a timelapse of their study session.</p>
+<h3>vite?</h3>
+<p>I learned about Vite for a few hours, and found out that it makes local development a lot faster. Before Vite, the standard was to bundle all your JavaScript into one file, which takes a long time. If you made a small change, it would take a long time to re-bundle. Instead, Vite keeps your source code separated and relies on the browser to import other source code and code from dependencies.</p>
+<p>For deployment, Vite bundles all your code together into a few large files by default.</p>
+<p>Vite can keep your code files separated during local development because browsers can follow <code>import</code> statements natively (since around 2017). Without that, the browser wouldn&rsquo;t know how to assemble the unbundled files. Fast localhost just makes the cost acceptable.</p>
+<p>It&rsquo;s pronounced &lsquo;veet&rsquo;, and is French for &lsquo;fast&rsquo; because it speeds up local development.</p>
+<h3>esbuild &amp; esm</h3>
+<p>The &lsquo;es&rsquo; in &lsquo;esbuild&rsquo; stands for ECMAScript, which is the official name for JavaScript. esbuild condenses the internals of each dependency into one file per dependency. When browser asks for a file, esbuild converts TypeScript to JavaScript.</p>
             </section>
 
             <section class="section">
 <h2>What&rsquo;s still confusing</h2>
+<h3>What happens during &lsquo;building&rsquo;?</h3>
+<p>I know that you need to compile TypeScript into JavaScript, and that you need to move the code into one bundle when deploying, but what else happens? Why is it so slow?</p>
+<h3>How does hot-reload work with Vite?</h3>
+<p>How does Vite reload your website in like 50ms?</p>
+<h3>How does the browser actually load your website?</h3>
+<p>How does it resolve import statements, etc?</p>
             </section>
         </article>
     </main>
