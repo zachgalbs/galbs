@@ -22,7 +22,7 @@ In the first version, you had four octets, with the first representing a network
 
 > 243.104.23.1 *is the device on network 243 with host id 6,821,889.
 
-This means there are 256(2^8) possible networks, and each network has 16,777,216(2^24) possible devices.
+Since there are 8 bits in an octet, there are 256(2^8) possible networks, and each network has 16,777,216(2^24) possible devices.
 
 256 networks couldn't sustain the demand, though, and it was rare for one network to use all 16 million possiblities. So, a new standard was born:
 
@@ -53,7 +53,7 @@ Class B's first octet starts with `10`, and Class C's starts with `110`.
 
 Often, large organizations with their own IP address would find they had too many host ids for their one network. Assuming you had a class A or B IP address, it was common to have tens of thousands of devices on one local network. This was clunky and slow because every time something like an ARP request is sent a broadcast would flood to every single device on the network.
 
-To fix this, subnetting was devised. You keep your first 1-3 octets as the network ID, but then you dedicate some of the bits that used to be for identifying devices, and use them as network separators. To do this, you define a new field that every device needs to communicate: **subnet masks**.
+To fix this, subnetting was devised. You keep your first 1-3 octets as the network ID, but then you dedicate some of the bits that used to be for identifying devices, and use them as network separators. To do this, you define a new field that every device requires to communicate: **subnet masks**.
 
 The subnet mask tells each devices what range of IP addresses are on their local network. You compute a **bitwise AND** on your subnet mask and your IP address, do the same for the intended recepients IP address, compare the results of the bitwise AND (called the **subnet id**), and if they're the same, conclude that they're on the same local network.
 
@@ -62,3 +62,11 @@ This was better because you could limit the number of hosts you have to the numb
 This way, even if you only have one class B IP address, you can use subnetting to give yourself 16 logically separate networks.
 
 For sending traffic to devices that don't share your subnet id, you simply route the IP datagram to the router, the router sees that the IP address belongs to one of the 16 networks, sends it to another router at the corresponding network it does ARP to find the MAC address, and then sends it along.
+
+### CIDR
+
+At this point there was still an issue: What if you simply didn't need that many networks? What if you didn't need 60,000 devices on your network? You could move to class C, but then you only had 254 slots. As demand for IP addresses increased, the authority handing them out wanted to conserve address space and ended up giving out multiple class C IP addresses to corporations. Since there was an increase in class C addresses, routing tables exploded, increasing strain on routers.
+
+To fix this, the **Classless Inter-Domain Routing** standard was introduced. In addition to your IP address, you include a number representing the number of bits used for the network ID.
+
+`192.168.1.0/26`: 26 bits are used to identify the network, and 6 bits are used for the host id, yielding 64 possible connections on the network.
