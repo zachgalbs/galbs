@@ -39,7 +39,50 @@
             </header>
 
             <section class="section">
-<h1>Module 2: The Network Layer</h1>
+<p>Everything we&rsquo;ve gone over so far is about how nodes communicate on the <strong>same network</strong>. The network layer was built so that devices could communicate between networks: so that <strong>internetworks</strong> could be built.</p>
+            </section>
+
+            <section class="section">
+<h2>How can you communicate between networks?</h2>
+<p>To send information to another device on the same network, you need the receipients MAC address. You attach their MAC address to your Ethernet frame, send it to the switch, and then the switch forwards the frame to the device.</p>
+<p>If you wanted to send something to a friend at a different network, you would have to store a table with every one of your friend&rsquo;s MAC addresses, and the next hop on how to get there. Since MAC addresses have no grouping, there&rsquo;s no way to condense this table, and every router would end up storing an obscene number of entries to account for every device you would ever want to communicate with.</p>
+            </section>
+
+            <section class="section">
+<h2>The Internet Protocol</h2>
+<p>To solve this issue, researchers in the late 1970s came up with the <strong>Internet Protocol</strong>. The idea was to give every device their own <strong>IP Address</strong>, with a common <strong>network id</strong> to group devices.</p>
+<p>In the first version, you had four octets, with the first representing a network id, and the last three serving to identify the device on the network:</p>
+<blockquote>
+<p>243.104.23.1 *is the device on network 243 with host id 6,821,889.</p>
+</blockquote>
+<p>Since there are 8 bits in an octet, there are 256(2^8) possible networks, and each network has 16,777,216(2^24) possible devices.</p>
+<p>256 networks couldn&rsquo;t sustain the demand, though, and it was rare for one network to use all 16 million possiblities. So, a new standard was born:</p>
+<h3>Classful IP Addresses</h3>
+<p>Instead of fighting for the limited number of network IDs, and then leaving 99% of the host IDs vacant, what if you could choose a <strong>class</strong> of IP address to claim for your need?</p>
+<h4>Class A</h4>
+<p>The first octet is dedicated to network ID, last three are dedicated for host IDs. This IP address is hard to get, but once you have it, you can account for 16 million unique devices. Large companies like Apple, Google, and IBM have their own Class A IP address.</p>
+<h4>Class B</h4>
+<p>First <strong>two</strong> octets dedicated to network ID, last two for host IDs.</p>
+<h4>Class C</h4>
+<p>First <strong>three</strong> octets for network ID, last one for host IDs.</p>
+<h4>How can you tell the difference?</h4>
+<p>The first octet looks a little different for each case:</p>
+<p>Class A&rsquo;s first bit starts with a 0. This limits the number of possible network ids to 128.</p>
+<p>Class B&rsquo;s first octet starts with <code>10</code>, and Class C&rsquo;s starts with <code>110</code>.</p>
+<blockquote>
+<p>Other classes D and E are used for multicast and experiments respectively.</p>
+</blockquote>
+<h3>Subnetting</h3>
+<p>Often, large organizations with their own IP address would find they had too many host ids for their one network. Assuming you had a class A or B IP address, it was common to have tens of thousands of devices on one local network. This was clunky and slow because every time something like an ARP request is sent a broadcast would flood to every single device on the network.</p>
+<p>To fix this, subnetting was devised. You keep your first 1-3 octets as the network ID, but then you dedicate some of the bits that used to be for identifying devices, and use them as network separators. To do this, you define a new field that every device requires to communicate: <strong>subnet masks</strong>.</p>
+<p>The subnet mask tells each devices what range of IP addresses are on their local network. You compute a <strong>bitwise AND</strong> on your subnet mask and your IP address, do the same for the intended recepients IP address, compare the results of the bitwise AND (called the <strong>subnet id</strong>), and if they&rsquo;re the same, conclude that they&rsquo;re on the same local network.</p>
+<p>This was better because you could limit the number of hosts you have to the number you need. You don&rsquo;t need 65,536 combinations of host IDs, you can choose to have 64.</p>
+<p>This way, even if you only have one class B IP address, you can use subnetting to give yourself 16 logically separate networks.</p>
+<p>For sending traffic to devices that don&rsquo;t share your subnet id, you simply route the IP datagram to the router, the router sees that the IP address belongs to one of the 16 networks, sends it to another router at the corresponding network it does ARP to find the MAC address, and then sends it along.</p>
+<h3>CIDR</h3>
+<p>At this point there was still an issue: What if you simply didn&rsquo;t need that many networks? What if you didn&rsquo;t need 60,000 devices on your network? You could move to class C, but then you only had 254 slots. As demand for IP addresses increased, the authority handing them out wanted to conserve address space and ended up giving out multiple class C IP addresses to corporations. Since there was an increase in class C addresses, routing tables exploded, increasing strain on routers.</p>
+<p>To fix this, the <strong>Classless Inter-Domain Routing</strong> standard was introduced. In addition to your IP address, you include a number representing the number of bits used for the network ID.</p>
+<p><code>192.168.1.0/26</code>: 26 bits are used to identify the network, and 6 bits are used for the host id, yielding 64 possible connections on the network.</p>
             </section>
         </article>
     </main>
