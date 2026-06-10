@@ -11,7 +11,7 @@ Everything we've gone over so far is about how nodes communicate on the **same n
 
 ## How can you communicate between networks?
 
-To send information to another device on the same network, you need the receipients MAC address. You attach their MAC address to your Ethernet frame, send it to the switch, and then the switch forwards the frame to the device.
+To send information to another device on the same network, you need the recipients MAC address. You attach their MAC address to your Ethernet frame, send it to the switch, and then the switch forwards the frame to the device.
 
 If you wanted to send something to a friend at a different network, you would have to store a table with every one of your friend's MAC addresses, and the next hop on how to get there. Since MAC addresses have no grouping, there's no way to condense this table, and every router would end up storing an obscene number of entries to account for every device you would ever want to communicate with.
 
@@ -20,7 +20,7 @@ To solve this issue, researchers in the late 1970s came up with the **Internet P
 
 In the first version, you had four octets, with the first representing a network id, and the last three serving to identify the device on the network:
 
-> 243.104.23.1 *is the device on network 243 with host id 6,821,889.
+> 243.104.23.1 is the device on network 243 with host id 6,821,889.
 
 Since there are 8 bits in an octet, there are 256(2^8) possible networks, and each network has 16,777,216(2^24) possible devices.
 
