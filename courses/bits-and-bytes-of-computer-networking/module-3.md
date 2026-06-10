@@ -76,3 +76,39 @@ A socket is just a collection of the device's IP, a program's port, and the stat
 ## Firewalls
 
 A firewall is just a program or device that blocks or allows traffic based on rules. It usually filters by port, so that if you have a device connected to your network you can make it so that outside devices can only access certain open ports.
+
+# The Application Layer
+
+With the physical layer, data link layer, network layer, and the transport layer, we can now get data between two programs. The **application layer** defines standards for **how** those programs communicate.
+
+With the layers we have now, programs could get data but would have no way of differentiating the formats of that data. In other words, they don't know how to read the data.
+
+The application layer defines more protocols for different use cases so that applications can understand each other when sending data back and forth.
+
+## Networking flow with the application layer
+
+As an example, let's look at the flow of Google Chrome communicating with Google's web server at `google.com`.
+
+First, we resolve the domain name `google.com` to one of the IP addresses that Google owns. Then we add the port `443`, since that's the canonical port for web servers. We build the payload of the TCP segment using a protocol called HTTP. That just means the data we slot into the data section of the TCP segment has some conventions that can be read by Google. Now that we have the data section of the TCP segment built, we ask the OS to actually send the request.
+
+Since web server communication uses TCP, the OS reads the IP and the port and establishes a connection with Google via the three-way-handshake. After that, a TCP segment is built with the HTTP request. The destination port is set to `443`, and the sender's port is set to an ephemeral port, since it's only being used for this one connection. After that, the IP datagram is built with the destination IP and the sender IP. At this point the device checks the **subnet id** of the IP to see if the requested server is on the local network or not. Then the ethernet frame is built. Since the web server isn't on the local network, the host sets the destination MAC address to the router's MAC address and sends the frame on its merry way. The router strips the ethernet frame, and routes it to Google's server, Google strips the IP datagram and TCP segment, locates the destination port, and sends the HTTP request to the program running on the socket at port `443`. Importantly, the program *only ever receives the data part of the TCP segment*.
+
+Since the program on port 443 was built to handle HTTP requests, it runs some code, generates an HTTP response, and sends it back to the OS. The server sends an IP datagram back to the sender's device, and then you render the webpage!
+
+## Protocols
+
+### HTTP
+
+HTTP is the protocol of the web. It defines how web servers and web clients communicate. The main parts of HTTP communication are:
+
+#### Methods
+
+These are keywords that denote different types of requests, like `GET`, `POST`, `PUT`, `DELETE`.
+
+#### Status Codes
+
+These are different classes of responses, like `200 OK`, `3XX` (redirect), `4XX` (client error), or `5XX` (server error)
+
+#### Headers
+
+These are sections in the HTTP requests and responses that carry metadata, like length, cookies, etc.
